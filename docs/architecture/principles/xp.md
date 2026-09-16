@@ -35,13 +35,7 @@ Green : 최소 코드로 테스트 통과
 Refactor : 불필요 복잡도 제거, 설계 개선
 ```
 
-**1인에게 필요한 3가지**:
-
-| 테스트 유형 | 역할 | 서술 예 |
-|-----------|------|--------|
-| Unit (Fake) | 비즈니스 로직 → 빠른 검증 | `test_match_score_above_threshold_returns_true` |
-| Integration | 계층 경계 계약 → Slice 완료 기준 | `test_get_news_returns_articles_from_db` |
-| E2E | 외부 서비스 연동 → 배포 전/주기적 | `test_fetch_rss_and_store_news` (`@pytest.mark.e2e`) |
+**테스트 종류, 마커, 디렉토리 구조, docstring 형식(GWT), Classicist 지향**: [testing.md](testing.md) 참고.
 
 **실무 간극** ("완벽한 TDD"는 불가능):
 
@@ -61,27 +55,28 @@ class MatchingPolicy(BaseModel):
 
 **기준**: "나중에 고칠 것 같은 부분 = 테스트 필요". Spike와 결정 사이에 명확한 commit message로 구분.
 
-**Test 서술 = GWT (Given-When-Then)**:
+**테스트 docstring(GWT 형식)은 [testing.md § 4](testing.md)**.
 
-모든 테스트 (Unit, Integration, Acceptance) docstring 은 GWT 형식.
+**프로덕션 코드 Docstring = Google Style(한국어)**:
+
+Args/Returns/Raises 섹션 이름은 영어 그대로(도구 파싱 호환), 내용은 한국어. 타입힌트로 이미 드러나는 정보는 반복하지 않는다 — 타입으론 안 보이는 것(반환값의 의미, 예외 발생 조건, 부수효과)만 채운다. 반복할 내용이 없으면 한 줄 요약만 쓰거나(review-standard.md상 docstring 자체는 🔵 nit, 저자 재량) 아예 생략해도 된다.
 
 ```python
-def test_get_news_returns_valid_response(client):
-    """GET /news 는 유효한 응답을 반환한다.
+# 반복할 정보 없음 - 한 줄로 충분
+def get_articles(self, source: str) -> list[Article]:
+    """지정 소스의 기사 전체를 반환한다."""
 
-    Given: FastAPI test client
-    When: GET /news 호출
-    Then: 200 OK + GetNewsResponse schema 유효
+# 예외/반환값 의미처럼 타입으로 안 보이는 정보 있음 - 섹션 채움
+def get_articles(self, source: str) -> list[Article]:
+    """지정 소스의 기사 전체를 반환한다.
+
+    Returns:
+        소스가 비활성화 상태면 빈 리스트(예외 아님).
+
+    Raises:
+        SourceNotFoundError: source가 등록되지 않은 값이면 발생.
     """
-    response = client.get("/news")
-    assert response.status_code == 200
-    GetNewsResponse.model_validate(response.json())
 ```
-
-**규칙**:
-- **Given 은 명시적** — 암묵적 상태 가정 금지. 필요 시 fixture 로 표현 (`filled_repository`, `empty_repository` 등).
-- Given 서로 충돌하는 테스트 = 다른 fixture 필요.
-- Docstring 첫 줄 = 사용자 관점 한 줄 요약.
 
 ### 2.2 Simple Design — Ponytail 정신
 
