@@ -43,12 +43,13 @@
 - ADR은 결정 로그이고, 이후 Spec·Plan은 채택안을 최신 상태로 표현한다.
 - 상세: [adr-process.md](adr-process.md)
 
-### 4. Specify → `spec-{slice}.md`
+### 4. Specify → `docs/specs/{slice}.md`
 
 - 입력/출력 명확히
 - Acceptance Criteria (AC) 정의 (정입력/오류 케이스)
+- Slice가 늘어나면 `docs/specs/README.md` 인덱스를 둔다(찾기 쉽게).
 
-### 5. Plan → `plan-{slice}.md`
+### 5. Plan → `docs/plans/{slice}.md`
 
 - Phase 1: Walking Skeleton (Stub + Integration 테스트, 모든 계층)
 - Phase 2: 실제 구현 (Inside-Out TDD, Stub 하나씩 교체)
@@ -62,9 +63,9 @@
 
 ### 7. GitHub Issue 생성 (GitHub로 추적하는 Slice만)
 
-- 사용자가 명시적으로 승인한 경우에만 Epic 또는 Slice Issue를 생성한다.
+- 사용자가 명시적으로 승인한 경우에만 `.github/ISSUE_TEMPLATE/slice.md` 템플릿으로 Slice Issue를 생성한다.
 - Issue는 승인된 Spec·Plan과 Research·ADR을 링크해 Slice의 공식 기록이 된다.
-- Issue 생성 후 각 Task의 `feature/{slice}-{task}` 브랜치를 만든다.
+- 각 Task는 `.github/ISSUE_TEMPLATE/task.md` 템플릿으로 Slice의 서브이슈로 생성하고, 이어서 `feature/{slice}-{task}` 브랜치를 만든다.
 - 작은 로컬 작업처럼 GitHub Issue로 추적하지 않는 경우에는 이 단계를 건너뛴다.
 
 ### 8. Tasks
@@ -83,8 +84,8 @@
 
 - PR 생성 전 `git-workflow.md`의 Self-review 최소 계약으로 범위·계약 증명·외부 경계·결정성·운영 계약을 확인하고, 발견한 사항을 먼저 수정한다.
 - Self-review 개선 후 전체 검증을 다시 통과한 커밋만 push·Ready PR 오픈 대상으로 삼는다. PR 본문에는 최종 self-review 결과와 선행 개선 사항을 기록한다.
-- Ready PR을 연 뒤 별도 컨텍스트의 읽기 전용 Caveman Review를 수행하고 `# Caveman Review` 댓글로 남긴다. Draft PR은 구현 진행 상황 공유에만 사용하며 독립 리뷰의 시작점이 아니다.
-- **🔴 Bug·🔵 Nit 은 자동 수정**하고, 검증·커밋·push 후 `# Caveman Review 조치` 댓글에 변경과 검증 결과를 기록한다. **🟡 Risk·❓ Question 은 사용자 결정**을 받은 뒤 진행한다 (근거: [review-standard.md](review-standard.md)).
+- Ready PR을 연 뒤 별도 컨텍스트의 읽기 전용 Independent Review를 수행하고 `# Independent Review` 댓글로 남긴다. Draft PR은 구현 진행 상황 공유에만 사용하며 독립 리뷰의 시작점이 아니다.
+- **🔴 Bug·🔵 Nit 은 자동 수정**하고, 검증·커밋·push 후 `# Independent Review 조치` 댓글에 변경과 검증 결과를 기록한다. **🟡 Risk·❓ Question 은 사용자 결정**을 받은 뒤 진행한다 (근거: [review-standard.md](review-standard.md)).
 - 조치가 검증되면 Task PR을 merge commit으로 병합한다.
 
 ### 11. Milestone 완료

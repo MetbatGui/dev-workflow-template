@@ -11,7 +11,7 @@
 | `AGENTS.md` | 에이전트 지침 SSOT. Codex/Claude 공통. TDD·ADR 강제 규칙, 라우팅 표 |
 | `CLAUDE.md` | Claude 전용 포인터 (내용 없음, SSOT 이중화 방지) |
 | `docs/workflow.md` | 간단 기획 → Spike → ADR → Spec → Plan → Tasks → 구현 전체 흐름 |
-| `docs/git-workflow.md` | 브랜치 네이밍, 커밋 컨벤션, PR 크기 원칙, Self-review 계약, 독립 리뷰(Caveman Review), merge 정책 |
+| `docs/git-workflow.md` | 브랜치 네이밍, 커밋 컨벤션, PR 크기 원칙, Self-review 계약, 독립 리뷰(Independent Review), merge 정책 |
 | `docs/adr-process.md` | ADR 형식·트리거·불변성(immutable)·소급 적용 규칙 |
 | `docs/review-standard.md` | PR 리뷰 형식, severity 정의, 처리 주체 규칙 |
 | `docs/product-vision.md` | 제품 비전 문서 뼈대 (내용은 프로젝트마다 채움) |
